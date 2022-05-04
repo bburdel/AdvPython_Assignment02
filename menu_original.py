@@ -1,39 +1,30 @@
-"""
+'''
 Provides a basic frontend
-"""
-
+'''
 import sys
-# import pysnooper
-from loguru import logger
 import main
 
-logger.info("Let's get to logging and debugging!")
-logger.add("out.log", backtrace=True, diagnose=True)
 
-
-# @pysnooper.snoop()
 def load_users():
-    """
+    '''
     Loads user accounts from a file
-    """
+    '''
     filename = input('Enter filename of user file: ')
-    main.load_users(filename, user_collection)
+    main.load_users(filename, user_selection)
 
 
-# @pysnooper.snoop
 def load_status_updates():
-    """
+    '''
     Loads status updates from a file
-    """
+    '''
     filename = input('Enter filename for status file: ')
     main.load_status_updates(filename, status_collection)
 
 
-# @pysnooper.snoop()
 def add_user():
-    """
+    '''
     Adds a new user into the database
-    """
+    '''
     user_id = input('User ID: ')
     email = input('User email: ')
     user_name = input('User name: ')
@@ -48,32 +39,27 @@ def add_user():
         print("User was successfully added")
 
 
-# @pysnooper.snoop()
 def update_user():
-    """
+    '''
     Updates information for an existing user
-    """
+    '''
     user_id = input('User ID: ')
     email = input('User email: ')
     user_name = input('User name: ')
     user_last_name = input('User last name: ')
-    # try:
-    if not main.update_user(user_id, email, user_name, user_last_name, user_collection):
+    if not main.update_user(user_id, email, user_name, user_last_name):
         print("An error occurred while trying to update user")
     else:
         print("User was successfully updated")
-    # except TypeError:
-    #     logger.exception("NEW EXCEPTION")
 
 
-# @pysnooper.snoop(depth=3)
 def search_user():
-    """
+    '''
     Searches a user in the database
-    """
+    '''
     user_id = input('Enter user ID to search: ')
     result = main.search_user(user_id, user_collection)
-    if not result.user_id:
+    if not result.name:
         print("ERROR: User does not exist")
     else:
         print(f"User ID: {result.user_id}")
@@ -82,11 +68,10 @@ def search_user():
         print(f"Last name: {result.user_last_name}")
 
 
-# @pysnooper.snoop()
 def delete_user():
-    """
+    '''
     Deletes user from the database
-    """
+    '''
     user_id = input('User ID: ')
     if not main.delete_user(user_id, user_collection):
         print("An error occurred while trying to delete user")
@@ -94,51 +79,47 @@ def delete_user():
         print("User was successfully deleted")
 
 
-# @pysnooper.snoop(depth=2)
 def save_users():
-    """
+    '''
     Saves user database into a file
-    """
+    '''
     filename = input('Enter filename for users file: ')
     main.save_users(filename, user_collection)
 
 
-# @pysnooper.snoop()
 def add_status():
-    """
+    '''
     Adds a new status into the database
-    """
+    '''
     user_id = input('User ID: ')
     status_id = input('Status ID: ')
     status_text = input('Status text: ')
-    if not main.add_status(status_id, user_id, status_text, status_collection):
+    if not main.add_status(user_id, status_id, status_text, status_collection):
         print("An error occurred while trying to add new status")
     else:
         print("New status was successfully added")
 
 
-# @pysnooper.snoop()
 def update_status():
-    """
+    '''
     Updates information for an existing status
-    """
+    '''
     user_id = input('User ID: ')
     status_id = input('Status ID: ')
     status_text = input('Status text: ')
-    if not main.update_status(status_id, user_id, status_text, status_collection):
+    if not main.add_status(user_id, status_id, status_text, status_collection):
         print("An error occurred while trying to update status")
     else:
         print("Status was successfully updated")
 
 
-# @pysnooper.snoop()
 def search_status():
-    """
+    '''
     Searches a status in the database
-    """
+    '''
     status_id = input('Enter status ID to search: ')
     result = main.search_status(status_id, status_collection)
-    if not result.status_id:
+    if not result.user_id:
         print("ERROR: Status does not exist")
     else:
         print(f"User ID: {result.user_id}")
@@ -146,11 +127,10 @@ def search_status():
         print(f"Status text: {result.status_text}")
 
 
-# @pysnooper.snoop(depth=3)
 def delete_status():
-    """
+    '''
     Deletes status from the database
-    """
+    '''
     status_id = input('Status ID: ')
     if not main.delete_status(status_id, status_collection):
         print("An error occurred while trying to delete status")
@@ -158,20 +138,18 @@ def delete_status():
         print("Status was successfully deleted")
 
 
-# @pysnooper.snoop()
 def save_status():
-    """
+    '''
     Saves status database into a file
-    """
+    '''
     filename = input('Enter filename for status file: ')
     main.save_status_updates(filename, status_collection)
 
 
-# @pysnooper.snoop()
 def quit_program():
-    """
+    '''
     Quits program
-    """
+    '''
     sys.exit()
 
 
@@ -210,6 +188,6 @@ if __name__ == '__main__':
                             Q: Quit
                             Please enter your choice: """)
         if user_selection.upper() in menu_options:
-            menu_options[user_selection.upper()]()
+            menu_options[user_selection]()
         else:
             print("Invalid option")
